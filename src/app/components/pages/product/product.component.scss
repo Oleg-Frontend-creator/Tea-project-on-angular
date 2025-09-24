@@ -1,0 +1,13 @@
+.card-img-top {
+  width: 500px;
+}
+
+@media screen and (max-width: 720px) {
+  .product-description {
+    font-size: 10px;
+  }
+
+  .card-img-top {
+    width: 300px;
+  }
+}

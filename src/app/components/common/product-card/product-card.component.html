@@ -1,0 +1,25 @@
+<div class="col">
+  <div class="product-card card text-start">
+    <a class="img-ref">
+      <img src="{{product.image}}" alt="Tea" class="card-img-top">
+    </a>
+    <div class="card-body">
+      <h3 class="product-title fw-bold fs-5 mb-2 mt-1">{{product.title}}</h3>
+      <p class="product-description pt-1 mb-4" title="{{product.description}}">
+        <span>{{product.description|slice: 0: 240}}...</span></p>
+      <div class="actions-block d-flex justify-content-between align-content-center">
+        <span class="fs-5 d-flex align-items-center">{{product.price}}₽</span>
+        <div class="buttons-block d-flex flex-column">
+          <button class="button-about btn btn-primary px-4"
+                  [routerLink]="'/product-catalog/'+product.id" routerLinkActive="active">
+            <span class="px-0 px-md-3">Подробнее</span>
+          </button>
+          <button class="button-about btn btn-primary px-4 mt-3"
+                  routerLink="/order" [queryParams]="{product: product.title}">
+            <span class="px-0 px-md-3">Купить</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,94 @@
+<section
+  class="order-form container-lg px-xxl-5 px-0 d-flex justify-content-center align-items-center flex-column"
+  *ngIf="!isFormSubmitted">
+  <h2 class="order-form__h2 fw-bold fs-2 mb-5 pb-2">Сделать заказ</h2>
+  <form class="order-info-form d-flex justify-content-center mt-1 w-75 row" [formGroup]="orderForm">
+    <div class="row-inputs row row-cols-3 w-75 px-md-4 px-sm-0 px-4 pb-3">
+      <div class="col px-1 name d-flex flex-column">
+        <label for="nameInput">Имя</label>
+        <input type="text" class="form__input input-name border-dark border-opacity-10 rounded-2"
+               formControlName="name" id="nameInput" (keydown)="onLettersInput($event)">
+        <div *ngIf="name?.invalid && (name?.dirty || name?.touched)">
+          <div class="text-danger" *ngIf="name?.errors?.['required']">Введите свое имя</div>
+        </div>
+      </div>
+
+      <div class="col name d-flex flex-column">
+        <label for="surnameInput">Фамилия</label>
+        <input type="text" class="form__input input-surname border-dark border-opacity-10 rounded-2"
+               formControlName="surname" id="surnameInput" (keydown)="onLettersInput($event)">
+        <div *ngIf="surname?.invalid && (surname?.dirty || surname?.touched)">
+          <div class="text-danger" *ngIf="surname?.errors?.['required']">Введите свою фамилию</div>
+        </div>
+      </div>
+
+      <div class="col name d-flex flex-column">
+        <label for="phoneInput">Телефон</label>
+        <input type="text" class="form__input input-phone border-dark border-opacity-10 rounded-2"
+               formControlName="phone" id="phoneInput"
+               (keydown)="onNumbersInput($event)" (change)="onPhoneInputChange($event)">
+        <div *ngIf="phone?.invalid && (phone?.dirty || phone?.touched)">
+          <div class="text-danger" *ngIf="phone?.errors?.['required']">Введите свой телефон</div>
+          <div class="text-danger" *ngIf="phone?.errors?.['pattern']">Введите свой телефон корректно</div>
+        </div>
+      </div>
+    </div>
+    <div class="row-inputs row row-cols-2 w-75 px-md-4 px-sm-0 px-4 pb-3">
+      <div class="col px-1 name d-flex flex-column">
+        Заказ
+        <input type="text" class="form__input input-country border-dark border-opacity-10 rounded-2"
+               formControlName="orderName" readonly [(ngModel)]="orderName">
+      </div>
+      <div class="col name d-flex flex-column">
+        Комментарий к заказу
+        <input type="text" class="form__input input-post-index border-dark border-opacity-10 rounded-2"
+               formControlName="orderComment">
+      </div>
+    </div>
+    <div class="row-inputs row row-cols-2 w-75 px-md-4 px-sm-0 px-4 pb-3">
+      <div class="col px-1 name d-flex flex-column">
+        <label for="countryInput">Страна</label>
+        <input type="text" class="form__input input-country border-dark border-opacity-10 rounded-2"
+               formControlName="country" id="countryInput" (keydown)="onLettersInput($event)">
+        <div *ngIf="country?.invalid && (country?.dirty || country?.touched)">
+          <div class="text-danger" *ngIf="country?.errors?.['required']">Введите страну проживания</div>
+        </div>
+      </div>
+      <div class="col name d-flex flex-column">
+        <label for="postIndexInput">Индекс</label>
+        <input type="text" class="form__input input-post-index border-dark border-opacity-10 rounded-2"
+               formControlName="postIndex" id="postIndexInput" (keydown)="onNumbersInput($event)">
+        <div *ngIf="postIndex?.invalid && (postIndex?.dirty || postIndex?.touched)">
+          <div class="text-danger" *ngIf="postIndex?.errors?.['required']">Введите почтовый индекс</div>
+          <div class="text-danger" *ngIf="postIndex?.errors?.['pattern']">Введите почтовый индекс корректно (в формате
+            000000)
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row-inputs row w-75 px-md-4 px-sm-0 px-4 pb-3">
+      <div class="col px-1 name d-flex flex-column">
+        <label for="addressInput">Адрес</label>
+        <input type="text" class="form__input input-address border-dark border-opacity-10 rounded-2"
+               formControlName="address" id="addressInput">
+        <div *ngIf="address?.invalid && (address?.dirty || address?.touched)">
+          <div class="text-danger" *ngIf="address?.errors?.['required']">Введите адрес вашего проживания</div>
+          <div class="text-danger" *ngIf="address?.errors?.['pattern']">Введите адрес вашего проживания корректно</div>
+        </div>
+      </div>
+    </div>
+    <div class="row-button row w-75 pt-2 px-md-4 px-sm-0 px-4 d-flex align-items-center">
+      <button class="order-button btn btn-primary w-auto px-4 ms-1" type="submit"
+              (click)="orderBtnClick($event)" [disabled]="isDataSending">
+        <span class="px-3">Отправить</span>
+      </button>
+      <div class="text-danger d-flex w-auto position-static" *ngIf="isFormInvalid">Произошла ошибка, попробуйте еще
+        раз.
+      </div>
+    </div>
+  </form>
+</section>
+<div
+  class="success-block container-lg px-xxl-5 px-0 d-flex justify-content-center align-items-center flex-column fs-1 my-5 py-5"
+  *ngIf="isFormSubmitted">Спасибо за заказ!
+</div>

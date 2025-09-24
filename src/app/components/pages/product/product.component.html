@@ -1,0 +1,17 @@
+<div class="product-card card d-flex flex-column px-3 align-items-center container flex-xl-row">
+  <a class="img-ref">
+    <img src="{{product.image}}" alt="Tea" class="card-img-top">
+  </a>
+  <div class="card-body">
+    <h3 class="product-title fw-bold fs-2 mb-2 mt-1 text-center">{{product.title}}</h3>
+    <p class="product-description pt-1 mb-4 text-xl-start text-center">
+      <span>{{product.description}}</span>
+    </p>
+    <div class="actions-block d-flex justify-content-end align-items-center">
+      <span class="fs-5 d-flex align-items-center pe-4">{{product.price}}₽</span>
+      <button class="button-about btn btn-primary px-4">
+        <span class="px-0 px-md-3" routerLink="/order" [queryParams]="{product: product.title}">Купить</span>
+      </button>
+    </div>
+  </div>
+</div>

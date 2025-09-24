@@ -1,0 +1,11 @@
+<div class="modal-backdrop" *ngIf="isShowModal">
+  <div class="modal">
+    <header class="modal__header">
+      <h5>Посмотрите наши чайные коллекции</h5>
+    </header>
+    <div class="modal__content d-flex justify-content-end w-100 mt-4">
+      <button class="watch-btn btn btn-primary me-3" [routerLink]="'/product-catalog'">Смотреть</button>
+      <button class="close-button btn" (click)="close()">Закрыть</button>
+    </div>
+  </div>
+</div>
