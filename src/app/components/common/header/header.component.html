@@ -27,13 +27,13 @@
   </div>
   <div class="header_header-actions py-1 d-flex justify-content-sm-between align-items-center justify-content-end">
     <input class="header_search-input rounded-3 h-100 me-2 my-auto border-1 border-dark border-opacity-25 ps-3 py-2"
-           type="text" placeholder="Поиск чая" [(ngModel)]="searchString">
+           type="text" placeholder="Поиск чая" [(ngModel)]="query">
     <button class="header_search-button btn btn-outline-primary h-100 px-sm-4 px-2 w-auto me-3 me-md-0 fs-5"
-            (click)="searchBtnClick()">
+            (click)="onSearch()">
       Найти
     </button>
     <button class="header_reset-button btn btn-outline-primary h-100 px-sm-4 px-2 w-auto me-3 me-md-0 fs-5 ms-3"
-            (click)="resetBtnClick()" [disabled]="!searchString">
+            (click)="onReset()" [disabled]="!query">
       Сбросить
     </button>
     <div class="header__burger my-auto px-3 w-auto" id="burger" style="display: none; width: 40px">

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {Router} from "@angular/router";
 import {ProductService} from "../../../services/product.service";
 
@@ -7,27 +7,20 @@ import {ProductService} from "../../../services/product.service";
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
-  public searchString: string = '';
+export class HeaderComponent {
+  query: string = '';
 
   constructor(private router: Router,
               private productService: ProductService) {
   }
 
-  ngOnInit(): void {
-  }
-
-  searchBtnClick() {
-    this.productService.searchString = this.searchString;
+  onSearch() {
+    this.productService.search(this.query);
     this.router.navigate(['/product-catalog']);
   }
 
-  resetBtnClick() {
-    if (this.router.url.includes('product-catalog')) {
-      location.reload();
-    } else {
-      this.productService.searchString = '';
-      this.searchString = '';
-    }
+  onReset() {
+    this.query = '';
+    this.productService.search('');
   }
 }

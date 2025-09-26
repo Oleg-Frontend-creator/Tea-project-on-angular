@@ -1,12 +1,18 @@
 <section class="products-description container mx-auto mx-md-auto mt-xl-5 mt-lg-3 pt-lg-4 pt-md-0  pt-sm-5 pt-4 d-flex
                     justify-content-center align-items-center flex-column flex-wrap w-100">
-  <h2 class="products-description__h2 fw-bold fs-2" *ngIf="!searchString">Наши чайные коллекции</h2>
-  <h2 class="products-description__h2 fw-bold fs-2" *ngIf="searchString && this.products.length !== 0">Результаты поиска по слову: "{{searchString}}"</h2>
-  <h2 class="products-description__h2 fw-bold fs-2" *ngIf="this.products.length === 0 && searchString">Ничего не найдено</h2>
-  <div class="product-cards my-4 w-100 row row-cols-lg-3 row-cols-md-2 row-cols-1 g-4 d-flex justify-content-center">
-    <product-card *ngFor="let product of products;" [product]="product"></product-card>
-  </div>
-  <div *ngIf="loading" class="loader-bg">
+  <ng-container *ngIf="productService.results$ | async as products;">
+    <div *ngIf="products.length; else empty">
+      <h2 class="products-description__h2 fw-bold fs-2 text-center" *ngIf="!productService.currentSearchStr">Наши чайные коллекции</h2>
+      <h2 class="products-description__h2 fw-bold fs-2 text-center" *ngIf="productService.currentSearchStr">Результаты поиска по слову: "{{productService.currentSearchStr}}"</h2>
+      <div class="product-cards my-4 w-100 row row-cols-lg-3 row-cols-md-2 row-cols-1 g-4 d-flex justify-content-center">
+        <product-card *ngFor="let product of products;" [product]="product"></product-card>
+      </div>
+    </div>
+    <ng-template #empty>
+      <h2 class="products-description__h2 fw-bold fs-2 text-center">Ничего не найдено</h2>
+    </ng-template>
+  </ng-container>
+  <div *ngIf="productService.loading$ | async" class="loader-bg">
     <div class="loader"></div>
   </div>
 </section>

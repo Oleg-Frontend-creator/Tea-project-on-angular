@@ -1,6 +1,16 @@
 import {Injectable} from '@angular/core';
-import {Observable} from "rxjs";
-import {HttpClient} from "@angular/common/http";
+import {
+  BehaviorSubject,
+  catchError,
+  debounceTime,
+  distinctUntilChanged,
+  filter, finalize,
+  Observable,
+  of,
+  shareReplay,
+  switchMap
+} from "rxjs";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {ProductType} from "../types/product.type";
 import {OrderFormType} from "../types/order-form.type";
 
@@ -8,17 +18,38 @@ import {OrderFormType} from "../types/order-form.type";
   providedIn: 'root'
 })
 export class ProductService {
-  public searchString: string = '';
+  private loadingSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  loading$ = this.loadingSubject.asObservable();
+
+  private searchSubject: BehaviorSubject<string> = new BehaviorSubject<string>('');
+  searchString$ = this.searchSubject.asObservable();
+
+  results$ = this.searchString$.pipe(
+    debounceTime(250),
+    distinctUntilChanged(),
+    switchMap(s => {
+        const search = s.trim();
+        const options = search ? {params: new HttpParams().set('search', search)} : {};
+
+        this.loadingSubject.next(true);
+
+        return this.http.get<ProductType[]>('https://testologia.ru/tea', options).pipe(
+          catchError(() => of([])),
+          finalize(() => this.loadingSubject.next(false))
+        );
+      }),
+    shareReplay(1)
+  );
 
   constructor(private http: HttpClient) {
   }
 
-  public getProducts(searchString?: string): Observable<ProductType[]> {
-    if (searchString) {
-      return this.http.get<ProductType[]>('https://testologia.ru/tea' + (searchString ? ('?search=' + searchString) : ''));
-    } else {
-      return this.http.get<ProductType[]>('https://testologia.ru/tea');
-    }
+  search(searchStr: string) {
+    this.searchSubject.next(searchStr);
+  }
+
+  get currentSearchStr(): string {
+    return this.searchSubject.getValue();
   }
 
   public getProduct(id: number): Observable<ProductType> {
